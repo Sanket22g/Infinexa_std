@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: infinexa-studio
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
+    envVars:
+      - key: VITE_GROQ_API_KEY
+        sync: false
