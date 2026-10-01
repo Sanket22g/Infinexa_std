@@ -1,36 +1,14 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { IoPlay, IoPause, IoVolumeHigh, IoVolumeMute, IoExpand } from 'react-icons/io5';
+import { IoPlay } from 'react-icons/io5';
 
 const Hero = () => {
   const { scrollY } = useScroll();
   const opacity = useTransform(scrollY, [0, 800], [1, 0.2]);
-
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [isMuted, setIsMuted] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const videoRef = useRef(null);
-
-  const togglePlay = () => {
-    if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-      } else {
-        videoRef.current.play();
-      }
-      setIsPlaying(!isPlaying);
-    }
-  };
-
-  const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
-    }
-  };
 
   return (
-    <div id="home" className="relative min-h-screen pt-28 pb-20 flex flex-col items-center justify-center overflow-hidden">
+    <div id="home" className="relative min-h-screen pt-32 pb-24 flex flex-col items-center justify-center overflow-hidden">
       {/* Dynamic Background */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primeBlue/10 via-white to-white dark:from-primeBlue/20 dark:via-darkBg dark:to-darkBg z-0 pointer-events-none transition-colors duration-300"></div>
       
@@ -73,6 +51,7 @@ const Hero = () => {
           initial={{ opacity: 0, scale: 0.9, y: 30 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.9, ease: "easeOut" }}
+          className="flex flex-col items-center"
         >
           {/* Badge */}
           <div className="inline-flex items-center px-4 py-1.5 mb-6 border border-primeCyan/40 dark:border-primeCyan/30 rounded-full bg-primeCyan/10 backdrop-blur-md shadow-sm dark:shadow-[0_0_20px_rgba(46,196,182,0.2)]">
@@ -81,24 +60,40 @@ const Hero = () => {
             </span>
           </div>
 
-          {/* Heading */}
-          <motion.h1 
-            className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-slate-900 dark:text-white leading-tight mb-6 transition-colors duration-300"
-          >
-            Empowering the Future with
-            <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primeBlue via-sky-600 to-primeCyan dark:from-primeBlue dark:via-primeCyan dark:to-white relative inline-block">
-              AI & Software Solutions
-              <div className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primeCyan to-transparent opacity-70 blur-[2px]"></div>
-            </span>
-          </motion.h1>
+          {/* Heading with Animated Logo Video in Background */}
+          <div className="relative w-full my-2 flex flex-col items-center justify-center">
+            {/* Animated Logo Video Backdrop behind the heading */}
+            <div className="absolute inset-0 -top-16 -bottom-16 flex items-center justify-center pointer-events-none -z-10 overflow-hidden">
+              <div className="relative w-[340px] sm:w-[540px] md:w-[720px] aspect-video flex items-center justify-center [mask-image:radial-gradient(ellipse_at_center,black_50%,transparent_85%)]">
+                <video
+                  src="/logo_animation.mp4"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-contain opacity-35 dark:opacity-25 mix-blend-multiply dark:mix-blend-screen scale-110 pointer-events-none select-none transition-all duration-700"
+                />
+              </div>
+            </div>
+
+            <motion.h1 
+              className="relative z-10 text-4xl sm:text-6xl md:text-7xl font-extrabold text-slate-900 dark:text-white leading-tight mb-6 transition-colors duration-300 drop-shadow-sm"
+            >
+              Empowering the Future with
+              <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primeBlue via-sky-600 to-primeCyan dark:from-primeBlue dark:via-primeCyan dark:to-white relative inline-block">
+                AI & Software Solutions
+                <div className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primeCyan to-transparent opacity-70 blur-[2px]"></div>
+              </span>
+            </motion.h1>
+          </div>
 
           <p className="text-base md:text-xl text-slate-600 dark:text-gray-300 max-w-2xl mx-auto mb-8 font-light leading-relaxed transition-colors duration-300">
             Infinexa Studio engineers autonomous Agentic AI architectures and next-level software platforms.
           </p>
 
           {/* Action Buttons */}
-          <div className="flex flex-wrap items-center justify-center gap-4 mb-14">
+          <div className="flex flex-wrap items-center justify-center gap-4">
             <a 
               href="#projects"
               className="relative px-7 py-3.5 overflow-hidden rounded-full min-w-[170px] group bg-slate-900 dark:bg-white border border-transparent transition-all duration-300 shadow-md hover:shadow-[0_10px_25px_rgba(11,91,161,0.25)] dark:hover:shadow-[0_0_30px_rgba(46,196,182,0.6)] hover:scale-105 inline-block text-center"
@@ -124,70 +119,6 @@ const Hero = () => {
               Contact Us
             </a>
           </div>
-
-          {/* Logo Animation Featured Video Showcase Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-            className="max-w-3xl mx-auto"
-          >
-            <div className="relative rounded-2xl p-[1px] bg-gradient-to-b from-primeCyan/50 via-primeBlue/30 to-transparent shadow-[0_15px_40px_rgba(0,0,0,0.08)] dark:shadow-[0_0_50px_rgba(46,196,182,0.25)]">
-              <div className="relative rounded-2xl bg-white/95 dark:bg-darkBg/90 backdrop-blur-2xl overflow-hidden p-2 md:p-3 border border-slate-200 dark:border-white/10 transition-colors duration-300">
-                {/* Header bar */}
-                <div className="flex items-center justify-between px-3 py-2 border-b border-slate-200 dark:border-white/10 mb-2 text-xs font-mono text-slate-500 dark:text-gray-400">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-primeCyan animate-ping"></span>
-                    <span className="text-slate-900 dark:text-white font-semibold uppercase tracking-wider">Infinexa Studio Official Logo Reveal</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <button 
-                      onClick={toggleMute}
-                      title={isMuted ? "Unmute" : "Mute"}
-                      className="p-1 hover:text-slate-900 dark:hover:text-white transition-colors"
-                    >
-                      {isMuted ? <IoVolumeMute className="text-base" /> : <IoVolumeHigh className="text-base text-primeCyan" />}
-                    </button>
-                    <button 
-                      onClick={togglePlay}
-                      title={isPlaying ? "Pause" : "Play"}
-                      className="p-1 hover:text-slate-900 dark:hover:text-white transition-colors"
-                    >
-                      {isPlaying ? <IoPause className="text-base text-primeCyan" /> : <IoPlay className="text-base" />}
-                    </button>
-                    <button 
-                      onClick={() => setShowModal(true)}
-                      title="Fullscreen Modal"
-                      className="p-1 hover:text-slate-900 dark:hover:text-white transition-colors"
-                    >
-                      <IoExpand className="text-base" />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Video Container */}
-                <div className="relative aspect-video rounded-xl overflow-hidden bg-black group cursor-pointer" onClick={togglePlay}>
-                  <video
-                    ref={videoRef}
-                    src="/logo_animation.mp4"
-                    autoPlay
-                    loop
-                    muted={isMuted}
-                    playsInline
-                    className="w-full h-full object-cover"
-                  />
-                  {/* Subtle hover play overlay if paused */}
-                  {!isPlaying && (
-                    <div className="absolute inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center">
-                      <div className="w-16 h-16 rounded-full bg-primeCyan/90 text-darkBg flex items-center justify-center text-2xl shadow-[0_0_30px_rgba(46,196,182,0.8)]">
-                        <IoPlay className="ml-1" />
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </motion.div>
         </motion.div>
       </motion.div>
 
